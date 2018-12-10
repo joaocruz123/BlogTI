@@ -1,11 +1,9 @@
 <table class="table table-responsive" id="artigos-table">
     <thead>
         <tr>
-            <th>Categoria Id</th>
-        <th>User Id</th>
         <th>Titulo</th>
         <th>Descricao</th>
-        <th>Corpo</th>
+            <th>Categoria</th>
         <th>Imagem</th>
             <th colspan="3">Action</th>
         </tr>
@@ -13,11 +11,9 @@
     <tbody>
     @foreach($artigos as $artigo)
         <tr>
-            <td>{!! $artigo->categoria_id !!}</td>
-            <td>{!! $artigo->user_id !!}</td>
             <td>{!! $artigo->titulo !!}</td>
             <td>{!! $artigo->descricao !!}</td>
-            <td>{!! $artigo->corpo !!}</td>
+            <td>{!! $artigo->categoria->nome !!}</td>
             <td>{!! $artigo->imagem !!}</td>
             <td>
                 {!! Form::open(['route' => ['artigos.destroy', $artigo->id], 'method' => 'delete']) !!}

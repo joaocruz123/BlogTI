@@ -61,5 +61,9 @@ class Artigo extends Model
         'titulo' => 'required'
     ];
 
+    public function categoria(){
+        return $this->belongsTo('App\Models\Categoria');
+    }
+
     
 }

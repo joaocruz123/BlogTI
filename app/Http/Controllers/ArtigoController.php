@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateArtigoRequest;
 use App\Http\Requests\UpdateArtigoRequest;
+use App\Models\Artigo;
 use App\Models\Categoria;
 use App\Repositories\ArtigoRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Repositories\CategoriaRepository;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -16,10 +19,12 @@ class ArtigoController extends AppBaseController
 {
     /** @var  ArtigoRepository */
     private $artigoRepository;
+    private $categoriaRepository;
 
-    public function __construct(ArtigoRepository $artigoRepo)
+    public function __construct(ArtigoRepository $artigoRepo, CategoriaRepository $cateoriaRepo)
     {
         $this->artigoRepository = $artigoRepo;
+        $this->categoriaRepository = $cateoriaRepo;
     }
 
     /**
@@ -32,9 +37,9 @@ class ArtigoController extends AppBaseController
     {
         $this->artigoRepository->pushCriteria(new RequestCriteria($request));
         $artigos = $this->artigoRepository->all();
+        $categoria_id = $this->categoriaRepository->all();
 
-        return view('artigos.index')
-            ->with('artigos', $artigos);
+        return view('artigos.index', compact('categoria_id'))->with('artigos', $artigos);
     }
 
     /**

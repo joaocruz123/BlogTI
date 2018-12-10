@@ -1,4 +1,5 @@
 <!-- User Id Field -->
+<input type="hidden" name="user_id" value="{!! \Illuminate\Support\Facades\Auth::id() !!}">
 <div class="form-group col-sm-12">
     {!! Form::label('categoria_id', 'Categoria:') !!}
     {!! Form::select('categoria_id', array_pluck(\App\Models\Categoria::all(),'nome','id'), ['class' => 'form-control']) !!}
