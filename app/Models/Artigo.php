@@ -65,5 +65,9 @@ class Artigo extends Model
         return $this->belongsTo('App\Models\Categoria');
     }
 
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+
     
 }

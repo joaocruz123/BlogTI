@@ -5,7 +5,7 @@
         <th>Descricao</th>
             <th>Categoria</th>
         <th>Imagem</th>
-            <th colspan="3">Action</th>
+            <th colspan="4">Action</th>
         </tr>
     </thead>
     <tbody>

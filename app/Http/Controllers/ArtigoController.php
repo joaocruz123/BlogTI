@@ -36,7 +36,7 @@ class ArtigoController extends AppBaseController
     public function index(Request $request)
     {
         $this->artigoRepository->pushCriteria(new RequestCriteria($request));
-        $artigos = $this->artigoRepository->all();
+        $artigos = Artigo::where('user_id', Auth::user()->id)->get();
         $categoria_id = $this->categoriaRepository->all();
 
         return view('artigos.index', compact('categoria_id'))->with('artigos', $artigos);

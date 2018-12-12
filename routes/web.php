@@ -11,23 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'BlogController@index')->name('blog');
+
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');
-
-
-
-
-
 Route::resource('artigos', 'ArtigoController');
-
 Route::resource('categorias', 'CategoriaController');
+
+
+
