@@ -91,7 +91,7 @@
                     </a>
                     <p class="post-meta">Postado por
                         {!! $artigo->user->name !!}
-                        em {!! date('d/m/Y', strtotime($artigo->created_at))!!}</p>
+                        em {!! date('d.m.Y', strtotime($artigo->created_at))!!}</p>
                         <hr>
 
                     @endforeach

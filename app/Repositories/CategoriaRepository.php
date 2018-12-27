@@ -30,4 +30,11 @@ class CategoriaRepository extends BaseRepository
     {
         return Categoria::class;
     }
+
+    public function rules()
+    {
+        return [
+            'nome' => "min:4|max:30|unique:categorias"
+        ];
+    }
 }

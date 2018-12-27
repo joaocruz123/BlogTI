@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateCategoriaAPIRequest;
 use App\Http\Requests\API\UpdateCategoriaAPIRequest;
+use App\Http\Requests\CreateArtigoRequest;
+use App\Models\Artigo;
 use App\Models\Categoria;
 use App\Repositories\CategoriaRepository;
 use Illuminate\Http\Request;
@@ -25,6 +27,8 @@ class CategoriaAPIController extends AppBaseController
     public function __construct(CategoriaRepository $categoriaRepo)
     {
         $this->categoriaRepository = $categoriaRepo;
+        //$this->middleware('auth');
+        //$this->middleware('auth', ['only' => 'store','update','destroy']);
     }
 
     /**
@@ -36,11 +40,8 @@ class CategoriaAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->categoriaRepository->pushCriteria(new RequestCriteria($request));
-        $this->categoriaRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $categorias = $this->categoriaRepository->all();
-
-        return $this->sendResponse($categorias->toArray(), 'Categorias retrieved successfully');
+        $categorias = Categoria::all();
+        return response()->json($categorias);
     }
 
     /**
@@ -53,11 +54,18 @@ class CategoriaAPIController extends AppBaseController
      */
     public function store(CreateCategoriaAPIRequest $request)
     {
-        $input = $request->all();
+        $data = $request->all();
 
-        $categorias = $this->categoriaRepository->create($input);
+        $validate = validator($data, $this->categoriaRepository->rules());
+        if ( $validate->fails() ) {
+            $messages = $validate->messages();
+            return response()->json(['validate_error' => $messages], 422);
+        }
+        if (!$insert = $this->categoriaRepository->create($data) ) {
+            return response()->json(['error' => 'error_insert'], 500);
+        }
 
-        return $this->sendResponse($categorias->toArray(), 'Categoria saved successfully');
+        return response()->json($insert, 201);
     }
 
     /**
@@ -70,14 +78,14 @@ class CategoriaAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Categoria $categoria */
-        $categoria = $this->categoriaRepository->findWithoutFail($id);
-
-        if (empty($categoria)) {
-            return $this->sendError('Categoria not found');
+        $categoria = Categoria::find($id);
+        if(!$categoria) {
+            return response()->json([
+                'message'   => 'Record not found',
+            ], 404);
         }
 
-        return $this->sendResponse($categoria->toArray(), 'Categoria retrieved successfully');
+        return response()->json($categoria);
     }
 
     /**
@@ -91,18 +99,20 @@ class CategoriaAPIController extends AppBaseController
      */
     public function update($id, UpdateCategoriaAPIRequest $request)
     {
-        $input = $request->all();
-
-        /** @var Categoria $categoria */
-        $categoria = $this->categoriaRepository->findWithoutFail($id);
-
-        if (empty($categoria)) {
-            return $this->sendError('Categoria not found');
+        $data = $request->all();
+        $validate = validator($data, $this->categoriaRepository->rules($id));
+        if ( $validate->fails() ) {
+            $messages = $validate->messages();
+            return response()->json(['validate_error' => $messages], 422);
         }
-
-        $categoria = $this->categoriaRepository->update($input, $id);
-
-        return $this->sendResponse($categoria->toArray(), 'Categoria updated successfully');
+        if( !$categoria = $this->categoriaRepository->find($id)) {
+            //dd("sadsadasd");
+            return response()->json(['error' => 'categoria_not_found'], 404);
+        }
+        if ( !$update = $categoria->update($data) ) {
+            return response()->json(['error' => 'categoria_not_update', 500]);
+        }
+        return response()->json($update, 200);
     }
 
     /**
@@ -115,15 +125,12 @@ class CategoriaAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Categoria $categoria */
-        $categoria = $this->categoriaRepository->findWithoutFail($id);
-
-        if (empty($categoria)) {
-            return $this->sendError('Categoria not found');
+        if( !$artigo = $this->categoriaRepository->find($id)) {
+            return response()->json(['error' => 'ccategoria_not_found'], 404);
         }
-
-        $categoria->delete();
-
-        return $this->sendResponse($id, 'Categoria deleted successfully');
+        if ( !$delete = $artigo->delete() ) {
+            return response()->json(['error' => 'categoria_not_delete', 500]);
+        }
+        return response()->json($delete);
     }
 }

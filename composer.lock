@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8789509118e2b9ee3b105791d118c581",
+    "content-hash": "e7bb1e79ef558ed32ce327744f14b3d9",
     "packages": [
         {
             "name": "appointer/swaggervel",
@@ -4927,10 +4927,10 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "infyomlabs/laravel-generator": 20,
+        "appointer/swaggervel": 20,
         "infyomlabs/adminlte-templates": 20,
-        "infyomlabs/swagger-generator": 20,
-        "appointer/swaggervel": 20
+        "infyomlabs/laravel-generator": 20,
+        "infyomlabs/swagger-generator": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

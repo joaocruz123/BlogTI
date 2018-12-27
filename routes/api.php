@@ -17,11 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-
-
-
-
 Route::resource('artigos', 'ArtigoAPIController');
-
 Route::resource('categorias', 'CategoriaAPIController');
+Route::resource('comentarios', 'ComentarioAPIController');

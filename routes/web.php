@@ -11,14 +11,16 @@
 |
 */
 
-Route::get('/', 'BlogController@index')->name('blog');
-
+Route::get('/', 'BlogController@index');
+Route::get('/post/{id}', 'BlogController@post');
+Route::post('/post/{id}', 'BlogController@comentario');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('artigos', 'ArtigoController');
-Route::resource('categorias', 'CategoriaController');
 
-
-
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function() {
+    Route::resource('artigos', 'ArtigoController');
+    Route::resource('categorias', 'CategoriaController');
+    Route::resource('comentarios', 'ComentarioController');
+});

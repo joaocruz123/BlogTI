@@ -19,8 +19,8 @@ class CreateArtigosTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('titulo')->unique();
             $table->string('descricao');
-            $table->string('corpo');
-            $table->string('imagem');
+            $table->longText('corpo');
+            $table->string('imagem')->default('default.jpg');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('categoria_id')->references('id')->on('categorias');

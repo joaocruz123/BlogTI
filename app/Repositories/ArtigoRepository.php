@@ -35,4 +35,18 @@ class ArtigoRepository extends BaseRepository
     {
         return Artigo::class;
     }
+
+    public function rules()
+    {
+        return [
+            'titulo' => 'min:10|max:148|required|unique:artigos',
+            'descricao' => 'min:10|max:148|required',
+            'corpo' => 'required|min:10',
+            'categoria_id' => 'required',
+            'user_id' => 'required',
+        ];
+    }
+    /**
+     * @return Application
+     */
 }

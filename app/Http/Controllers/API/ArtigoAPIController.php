@@ -8,6 +8,7 @@ use App\Models\Artigo;
 use App\Repositories\ArtigoRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
@@ -36,11 +37,8 @@ class ArtigoAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->artigoRepository->pushCriteria(new RequestCriteria($request));
-        $this->artigoRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $artigos = $this->artigoRepository->all();
-
-        return $this->sendResponse($artigos->toArray(), 'Artigos retrieved successfully');
+        $artigos = Artigo::all();
+        return response()->json($artigos);
     }
 
     /**
@@ -53,11 +51,18 @@ class ArtigoAPIController extends AppBaseController
      */
     public function store(CreateArtigoAPIRequest $request)
     {
-        $input = $request->all();
+        $data = $request->all();
 
-        $artigos = $this->artigoRepository->create($input);
+        $validate = validator($data, $this->artigoRepository->rules());
+        if ( $validate->fails() ) {
+            $messages = $validate->messages();
+            return response()->json(['validate_error' => $messages], 422);
+        }
+        if (!$insert = $this->artigoRepository->create($data) ) {
+            return response()->json(['error' => 'error_insert'], 500);
+        }
 
-        return $this->sendResponse($artigos->toArray(), 'Artigo saved successfully');
+        return response()->json($insert , 201);
     }
 
     /**
@@ -70,14 +75,15 @@ class ArtigoAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Artigo $artigo */
-        $artigo = $this->artigoRepository->findWithoutFail($id);
+        $artigo = Artigo::find($id);
 
-        if (empty($artigo)) {
-            return $this->sendError('Artigo not found');
+        if(!$artigo) {
+            return response()->json([
+                'message'   => 'Record not found',
+            ], 404);
         }
 
-        return $this->sendResponse($artigo->toArray(), 'Artigo retrieved successfully');
+        return response()->json($artigo);
     }
 
     /**
@@ -91,18 +97,20 @@ class ArtigoAPIController extends AppBaseController
      */
     public function update($id, UpdateArtigoAPIRequest $request)
     {
-        $input = $request->all();
+        $data = $request->all();
 
-        /** @var Artigo $artigo */
-        $artigo = $this->artigoRepository->findWithoutFail($id);
-
-        if (empty($artigo)) {
-            return $this->sendError('Artigo not found');
+        $validate = validator($data, $this->artigoRepository->rules($id));
+        if ( $validate->fails() ) {
+            $messages = $validate->messages();
+            return response()->json(['validate_error' => $messages], 422);
         }
-
-        $artigo = $this->artigoRepository->update($input, $id);
-
-        return $this->sendResponse($artigo->toArray(), 'Artigo updated successfully');
+        if( !$artigo = $this->artigoRepository->find($id)) {
+            return response()->json(['error' => 'artigo_not_found'], 404);
+        }
+        if ( !$update = $artigo->update($data) ) {
+            return response()->json(['error' => 'artigo_not_update', 500]);
+        }
+        return response()->json($update, 200);
     }
 
     /**
@@ -115,15 +123,12 @@ class ArtigoAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Artigo $artigo */
-        $artigo = $this->artigoRepository->findWithoutFail($id);
-
-        if (empty($artigo)) {
-            return $this->sendError('Artigo not found');
+        if( !$artigo = $this->artigoRepository->find($id)) {
+            return response()->json(['error' => 'artigo_not_found'], 404);
         }
-
-        $artigo->delete();
-
-        return $this->sendResponse($id, 'Artigo deleted successfully');
+        if ( !$delete = $artigo->delete() ) {
+            return response()->json(['error' => 'artigo_not_delete', 500]);
+        }
+        return response()->json($delete);
     }
 }
