@@ -1,64 +1,70 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+## Sobre o Projeto
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Este projeto é tem a finalidade de qualificar um integrante do time de desenvolvimento da AGV, como um Desenvolvedor WEB PHP FULL-STACK. Ele é um simple blog que possui uma aréa destinada  para o usuario postar artigos, gerenciar as categorias e os seus comentários.
 
-## About Laravel
+## Backend
+O projeto conta com um backend responsável por realizar toda a comunicação com o banco de dados, e uma API Restfull funcional.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+- API RESTful - OK
+- Conexão com Banco de dados relacional - OK
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Frontend
+O Frontend do projeto apresenta os recursos de Responsividade e utiliza o recurso blade disponivel no Laravel.
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+- Responsivo - OK
+- Integrado com a API. - OK
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+## Etapas
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+MVP
 
-## Laravel Sponsors
+- Eu como autor gostaria de publicar um artigo no blog com título, imagem e descrição. - OK
+- Eu como autor gostaria de editar um artigo já publicado. - OK
+- Eu como autor gostaria de excluir um artigo. - OK
+- Eu como autor gostaria de uma área exclusiva com autenticação para publicar, editar ou excluir um artigo. - OK
+- Eu como usuário gostaria que a página inicial exiba os últimos artigos publicados em ordem decrescente com a imagem, título e um resumo do artigo. - OK
+- Eu como usuário gostaria que quando clicar na imagem título ou resumo, ser redirecionado para uma página que contenha o artigo completo e seus comentários. - OK
+- Eu como usuário gostaria de publicar um comentário anônimo (sem login). - OK
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+Backlog 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
+- Eu como usuário gostaria de publicar um comentário (com login). - OK
+- Eu como autor gostaria de excluir um comentário na página de edição do artigo. - OK
+- Eu como autor gostaria de exibir as datas de criação do artigo e a data da última atualização caso o mesmo for editado. - OK
+- Eu como usuário gostaria de realizar uma pesquisa para filtrar os artigos publicados. - OK
+- EnviarEu como autor gostaria de definir uma categoria para o meu artigo. - OK
+- EnviarEu como usuário gostaria de exibir os artigos de uma determinada categoria. - OK
+- EnviarEu como autor gostaria de incluir tags em um artigo. - Em andamento
+- EnviarEu como usuário gostaria de exibir artigos de uma determinada tag. - Em andamento
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Requisitos do Projeto
+- Laravel 5.6
+- PHP >= 7.2.12
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Mbstring PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+- MariaDB
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Instalação
+
+```
+git clone https://github.com/milon/laravel-blog.git blog
+cd blog
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan db:seed
+```
+Acessar o sistema
+
+- Usuário: admin@admin.com
+- Senha: 123456
 
 ## License
 
